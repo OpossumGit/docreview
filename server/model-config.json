@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models",
+      "../node_modules/loopback-component-passport/lib/models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "clinic": {
+    "dataSource": "mongo",
+    "public": true
+  },
+  "doctor": {
+    "dataSource": "mongo",
+    "public": true
+  },
+  "rating": {
+    "dataSource": "mongo",
+    "public": true
+  },
+  "User": {
+    "dataSource": "mongo"
+  },
+  "AccessToken": {
+    "dataSource": "mongo",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "mongo",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "mongo",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "mongo",
+    "public": false
+  },
+  "ApplicationCredential": {
+    "dataSource": "mongo",
+    "public": false
+  },
+  "UserCredential": {
+    "dataSource": "mongo",
+    "public": false
+  },
+  "UserIdentity": {
+    "dataSource": "mongo",
+    "public": false
+  }
+}

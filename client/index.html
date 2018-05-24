@@ -25,20 +25,49 @@
 <div id="app">
  <v-app>
 
-    <v-toolbar dark color="primary">
-      <v-toolbar-title class="white--text">Komentiraj dijabetologa</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn flat icon color="white" :disabled="!validComment" v-show="step==3" @click.prevent="submit">
-        <v-icon>save</v-icon>
-      </v-btn>
-      <v-btn flat icon color="white" @click.native="restart"><v-icon>cached</v-icon></v-btn>
-    </v-toolbar>
-    
+  <v-toolbar dark flat dense color="primary">
+    <v-toolbar-title class="white--text">Komentiraj dijabetologa</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-btn flat icon color="white" :disabled="!validComment" v-show="step==3" @click.prevent="submit"><v-icon>save</v-icon></v-btn>
+    <v-btn flat icon color="white" @click.native="restart"><v-icon>cached</v-icon></v-btn>
+    <div v-if="!unauthenticated"><v-btn flat icon color="white" @click.native="logout"><v-icon>fa-sign-out-alt</v-icon></v-btn></div>
+  </v-toolbar>
+
+   
   <!-- content -->
-      <v-content>
+    <v-content>
 
   		<v-container>
-    
+
+        <div v-if="unauthenticated">
+          <v-layout>
+            <v-flex xs12 sm6 offset-sm3>
+              <v-card>
+                <v-card-media src="locked.jpeg" height="200px">
+                </v-card-media>
+                <v-card-title primary-title>
+                  <div>
+                    <h3 class="headline mb-0">Potrebna je identifikacija</h3>
+                    <div>Za korištenje ove usluge se trebate identificirati. Možete koristiti vaše korisničke podatke Google ili Facebook sustava<br>Koje podatke želite koristiti?</div>
+                  </div>
+                </v-card-title>
+                <v-card-actions>
+                  <v-btn flat color="primary" @click.native="googleLogin">Google</v-btn>
+                  <v-btn flat color="primary" @click.native="alert('Nije još implemntirano :(')">Facebook</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </div>
+        <div v-else>
+
+           <!-- alert ako postoji se vidi ovdje -->
+          <div v-if="errorMsg">
+            <v-alert :value="true" outline color="error" icon="warning">
+              {{errorMsg}}
+            </v-alert>
+          </div>    
+          <div v-else>  
             <v-stepper v-model="step" vertical>
               <v-stepper-header>
                 <v-stepper-step step="1" :complete="step > 1"></v-stepper-step>
@@ -50,21 +79,21 @@
                 <v-stepper-step step="4"></v-stepper-step>
               </v-stepper-header>
               <v-stepper-items>
-                
-  <!-- STEP 1 -->
+                    
+        <!-- STEP 1 -->
                 <v-stepper-content step="1">
                  <v-select id="clinic" :items="clinics" v-model="registration.clinic" item-text="clinicname" label="Klinika" v-on:input="loadDoctors" autocomplete ></v-select>
                                  
                 </v-stepper-content>
-               
-  <!-- STEP 2 -->
+                     
+        <!-- STEP 2 -->
                 <v-stepper-content step="2">
                 	<v-subheader>{{registration.clinic.clinicname}}, {{registration.clinic.address}} </v-subheader>
                   <v-select id="doctor" :items="doctors" v-model="registration.doctor"  item-text="name" label="Doktor" v-on:input="gotoComments" autocomplete ></v-select>
                   
                 </v-stepper-content>
 
-  <!-- STEP 3 -->
+        <!-- STEP 3 -->
                 <v-stepper-content step="3">
                 	<v-subheader>{{registration.clinic.clinicname}}, {{registration.clinic.address}},</v-subheader>
                 	<v-subheader>{{registration.doctor.name}}</v-subheader>
@@ -81,27 +110,37 @@
 
                 </v-stepper-content>
 
-  <!-- STEP 4 -->
+        <!-- STEP 4 -->
                 <v-stepper-content step="4">
-                	Zahvaljujemo na Vašem unosu!
-                	<v-subheader>{{registration.clinic.clinicname}}, {{registration.clinic.address}},</v-subheader>
-                	<v-subheader>{{registration.doctor.name}},</v-subheader>
-                	<v-subheader>Vaš komentar: {{registration.comment}}</v-subheader>
-                	<v-subheader>Ocjena: 
-                  <span v-for="n in registration.stars"> <v-icon small color="red">fa-tint</v-icon></span>
-                  </v-subheader>
+
+                  <v-card>
+                    <v-card-title primary-title>
+                        <h3 class="headline mb-0">Zahvaljujemo na Vašem unosu</h3>
+                    </v-card-title>
+                    <v-card-text>{{registration.clinic.clinicname}}, {{registration.clinic.address}},<br>
+                    {{registration.doctor.name}},<br>
+                    Vaš komentar: {{registration.comment}}<br>
+                    Ocjena: <span v-for="n in registration.stars"> <v-icon small color="red">fa-tint</v-icon>
+                    </span>
+                   </v-card-text>
                   
-                  
+                    <v-card-actions>
+                      <v-btn id="logoutBtn" flat color="primary" :disabled="unauthenticated" @click.prevent="logout">Odjavi se</v-btn>
+                    </v-card-actions>
+                  </v-card>
+            
                 </v-stepper-content>
               </v-stepper-items>
-            </v-stepper>  
-                
-          </v-container>    
+           </v-stepper> 
+          </div> 
+        </div>
+          
+      </v-container>    
       
-      </v-content>
+    </v-content>
 
-    <footercomponent></footercomponent>
 
+  <footercomponent></footercomponent>
 
 
   </v-app>

@@ -28,10 +28,10 @@
     "strategy": "OAuth2Strategy",
     "clientID": "372692070706-fm4i39qge7s7elmeav5grvfsevsgmsv1.apps.googleusercontent.com",
     "clientSecret": "C4YDwZDUDU4OE_hbgdgHuQn_",
-    "callbackURL": "http://localhost:3000/auth/google/callback",
+    "callbackURL": "/auth/google/callback",
     "authPath": "/auth/google",
     "callbackPath": "/auth/google/callback",
-    "successRedirect": "/explorer",
+    "successRedirect": "/",
     "scope": ["email", "profile"]
   },
   "twitter-login": {

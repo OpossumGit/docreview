@@ -46,7 +46,8 @@ var app = new Vue({
     	  }, response => {
   	     // error callback
   	      //console.log(response);
-          this.errorMsg=response.bodyText;
+        if (response.status == 401) {this.logout();}
+        else this.errorMsg=response.bodyText;
 
   	   });
       }
@@ -64,7 +65,8 @@ var app = new Vue({
   	  }, response => {
   	    // error callback
   	    //console.log(response);
-        this.errorMsg=response.bodyText;
+        if (response.status == 401) {this.logout();}
+        else this.errorMsg=response.bodyText;
   	  });
     },
     gotoComments() {
@@ -97,14 +99,25 @@ var app = new Vue({
       return "";
     },
     logout() {
-      var cookies = document.cookie.split(";");
+      
+      this.$http.post('api/Users/logout',null , {headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
+        var cookies = document.cookie.split(";");
 
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-      }
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i];
+          var eqPos = cookie.indexOf("=");
+          var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+          }
+          this.unauthenticated = true;
+
+        }, response => {
+         // error callback
+          //console.log(response);
+        this.errorMsg=response.bodyText;
+
+       });
 
       this.unauthenticated = true;
     }
@@ -130,7 +143,8 @@ var app = new Vue({
   	  }, response => {
   	    // error callback
   	    //console.log(response);
-        this.errorMsg=response.bodyText;
+        if (response.status == 401) {this.logout();}
+        else this.errorMsg=response.bodyText;
   	  });
     }
   }

@@ -7,8 +7,7 @@ var app = new Vue({
         comment:'',
         clinic:{},
         doctor:{},
-        stars:0,
-        author:'anonymous'
+        stars:0
       },
       clinics:[],
       doctors: [],
@@ -33,7 +32,7 @@ var app = new Vue({
         	{
   		  "stars": this.registration.stars,
   		  "comment": this.registration.comment,
-  		  "author": this.registration.author,
+  		  "author": this.whoami,
   		  "doctorId": this.registration.doctor.id
     		};
 

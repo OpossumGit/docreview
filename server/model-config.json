@@ -58,6 +58,14 @@
   },
   "UserIdentity": {
     "dataSource": "mongo",
-    "public": false
+    "public": true,
+    "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "findOne"
+    }
+  ]
   }
 }

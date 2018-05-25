@@ -21,7 +21,8 @@ var app = new Vue({
       validComment: false,
       requiredComment: [v =>!!v || 'Obavezan unos komentara'],
       errorMsg: null,
-      unauthenticated: true
+      unauthenticated: true,
+      whoami: ""
   }),
   methods:{
     submit() {
@@ -76,7 +77,7 @@ var app = new Vue({
     	}, 0);
     },
     restart() {
-    	location.reload();
+      location.reload();
     },
     readyToSubmit() {
     	document.getElementById("submitBtn").focus();
@@ -111,6 +112,7 @@ var app = new Vue({
 
           }
           this.unauthenticated = true;
+          this.whoami="";
 
         }, response => {
          // error callback
@@ -120,6 +122,20 @@ var app = new Vue({
        });
 
       this.unauthenticated = true;
+    },
+    determineWhoAmI() {
+
+      this.$http.get('api/UserIdentities/findOne',{params: {"filter[where]":{"userId": this.getCookie("userId")}}, headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
+
+        //console.log(response.body);
+        this.whoami=response.body.profile.displayName;
+
+      }, response => {
+        // error callback
+        console.log(response);
+        this.whoami="";
+      });
+
     }
   },
   created(){
@@ -131,7 +147,9 @@ var app = new Vue({
   		setTimeout(function(){ document.getElementById("loading").style.display="none"; }, 1000);
   	} 
 
-      if (!this.unauthenticated){
+    if (!this.unauthenticated){
+
+      this.determineWhoAmI();
 
       this.$http.get('api/clinics',{params: {"filter[order]":"clinicname"}, headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
 

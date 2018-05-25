@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Komentiraj dijabetologa</title>
+<title>Komentiraj dijabetologa </title>
 
 <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
@@ -27,10 +27,11 @@
 
   <v-toolbar dark flat dense color="primary">
     <v-toolbar-title class="white--text">Komentiraj dijabetologa</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-btn flat icon color="white" :disabled="!validComment" v-show="step==3" @click.prevent="submit"><v-icon>save</v-icon></v-btn>
-    <v-btn flat icon color="white" @click.native="restart"><v-icon>cached</v-icon></v-btn>
-    <div v-if="!unauthenticated"><v-btn flat icon color="white" @click.native="logout"><v-icon>fa-sign-out-alt</v-icon></v-btn></div>
+    <div slot="extension">{{whoami}}</div>
+    <v-spacer slot="extension"></v-spacer>
+    <v-btn slot="extension" flat icon color="white" :disabled="!validComment" v-show="step==3" @click.prevent="submit"><v-icon>save</v-icon></v-btn>
+    <v-btn slot="extension" flat icon color="white" @click.native="restart"><v-icon>cached</v-icon></v-btn>
+    <div v-if="!unauthenticated" slot="extension"><v-btn flat icon color="white" @click.native="logout"><v-icon>fa-sign-out-alt</v-icon></v-btn></div>
   </v-toolbar>
 
    

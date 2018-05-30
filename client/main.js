@@ -21,7 +21,8 @@ var app = new Vue({
       requiredComment: [v =>!!v || 'Obavezan unos komentara'],
       errorMsg: null,
       unauthenticated: true,
-      whoami: ""
+      whoami: "",
+      comments: {}
   }),
   methods:{
     submit() {
@@ -42,6 +43,8 @@ var app = new Vue({
           this.errorMsg = null;
 
           document.getElementById("logoutBtn").focus();
+
+          this.registration.comment = this.registration.comment.replace(/(?:\r\n|\r|\n)/g, '<br>');
 
     	  }, response => {
   	     // error callback
@@ -74,6 +77,24 @@ var app = new Vue({
     	window.setTimeout(function (){
     		document.getElementById("comment").focus();
     	}, 0);
+
+      this.$http.get('api/doctors/'+this.registration.doctor.id+'/ratings',{headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
+
+        //console.log(response.body);
+        for (var i = 0; i < response.body.length; i++) {
+          response.body[i].comment = response.body[i].comment.replace(/(?:\r\n|\r|\n)/g, '<br>');
+        }
+
+        this.comments=response.body;
+        this.errorMsg=null;
+
+
+      }, response => {
+        // error callback
+        //console.log(response);
+        if (response.status == 401) {this.logout();}
+        else this.errorMsg=response.bodyText;
+      });
     },
     restart() {
       location.reload();

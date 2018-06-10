@@ -78,7 +78,7 @@ var app = new Vue({
     		document.getElementById("comment").focus();
     	}, 0);
 
-      this.$http.get('api/doctors/'+this.registration.doctor.id+'/ratings',{headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
+      this.$http.get('api/doctors/'+this.registration.doctor.id+'/ratings',{params: {"filter[order]":"timestamp DESC"}, headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
 
         //console.log(response.body);
         for (var i = 0; i < response.body.length; i++) {

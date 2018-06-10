@@ -109,18 +109,8 @@
                     <v-spacer></v-spacer><v-btn id="submitBtn" flat color="primary" :disabled="!validComment" @click.prevent="submit">Spremi komentar</v-btn>
                   </v-card-actions>
 
-                  <div v-for="comment in comments">
-                    <v-card tile hover class="mb-3 lime lighten-5">
-                      <v-card-text> <span class="body-1" v-html="comment.comment"></span>
-                        <br>
-                        Ocjena: <span v-for="n in comment.stars"> <v-icon small color="red">fa-tint</v-icon>
-                      </span>
-                      <br>
-                      <div class="caption mb-0 text-xs-right">{{comment.author}}, {{getHRDate(comment.timestamp)}}</div> 
-                     </v-card-text>
-                    </v-card>
-                    
-                  </div>
+                  <comment v-for="comment in comments" v-bind:cmnt="comment"></comment>
+
 
                 </v-stepper-content>
 
@@ -168,6 +158,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/hr.js"></script>
 <script src="components/footer.js"></script>
+<script src="components/comment.js"></script>
 <script src="main.js"></script>
 
 

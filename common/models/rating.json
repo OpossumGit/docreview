@@ -20,6 +20,10 @@
       "type": "string",
       "required": true,
       "default": "unknown"
+    },
+    "timestamp" : {
+      "type" : "date",
+      "defaultFn": "now"
     }
   },
   "validations": [],

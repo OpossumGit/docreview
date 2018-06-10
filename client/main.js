@@ -156,9 +156,6 @@ var app = new Vue({
         this.whoami="";
       });
 
-    },
-    getHRDate (date) {
-     return moment(date).fromNow();
     }
   },
   created(){

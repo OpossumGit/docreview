@@ -7,7 +7,11 @@ var app = new Vue({
         comment:'',
         clinic:{},
         doctor:{},
-        stars:0
+        starsExpertize:0,
+        starsPoliteness:0,
+        starsEthic:0,
+        starsStaff:0,
+        author:''
       },
       clinics:[],
       doctors: [],
@@ -21,7 +25,6 @@ var app = new Vue({
       requiredComment: [v =>!!v || 'Obavezan unos komentara'],
       errorMsg: null,
       unauthenticated: true,
-      whoami: "",
       comments: {}
   }),
   methods:{
@@ -31,9 +34,12 @@ var app = new Vue({
 
         let jsonToSubmit = 
         	{
-  		  "stars": this.registration.stars,
+  		  "starsExpertize": this.registration.starsExpertize,
+        "starsPoliteness": this.registration.starsPoliteness,
+        "starsEthic": this.registration.starsEthic,
+        "starsStaff": this.registration.starsStaff,
   		  "comment": this.registration.comment,
-  		  "author": this.whoami,
+  		  "author": this.registration.author,
   		  "doctorId": this.registration.doctor.id
     		};
 
@@ -132,7 +138,7 @@ var app = new Vue({
 
           }
           this.unauthenticated = true;
-          this.whoami="";
+          this.registration.author=="";
 
         }, response => {
          // error callback
@@ -148,12 +154,12 @@ var app = new Vue({
       this.$http.get('api/UserIdentities/findOne',{params: {"filter[where]":{"userId": this.getCookie("userId")}}, headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
 
         //console.log(response.body);
-        this.whoami=response.body.profile.displayName;
+        this.registration.author=response.body.profile.displayName;
 
       }, response => {
         // error callback
         console.log(response);
-        this.whoami="";
+        this.registration.author="";
       });
 
     }

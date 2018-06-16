@@ -27,7 +27,7 @@
 
   <v-toolbar dark flat dense color="primary">
     <v-toolbar-title class="white--text">Komentiraj dijabetologa</v-toolbar-title>
-    <div v-if="!unauthenticated" slot="extension">{{whoami}}</div>
+    <div v-if="!unauthenticated" slot="extension">{{registration.author}}</div>
     <v-spacer slot="extension"></v-spacer>
     <v-btn slot="extension" flat icon color="white" :disabled="!validComment" v-if="step==3" @click.prevent="submit"><v-icon>save</v-icon></v-btn>
     <v-btn slot="extension" flat icon color="white" v-if="!unauthenticated"  @click.native="restart"><v-icon>cached</v-icon></v-btn>
@@ -103,7 +103,10 @@
                   <v-text-field id="comment" label="Komentar"
                                 v-model="registration.comment" multi-line auto-grow :rules="requiredComment" required></v-text-field>
                   </v-form>
-                  <v-select id="rating" :items="ratings" item-text="text" v-model="registration.stars" v-on:input="readyToSubmit" label="Ocjena" ></v-select>
+                  <v-select id="ratingExpertize" :items="ratings" item-text="text" v-model="registration.starsExpertize" v-on:input="document.getElementById('ratingPoliteness').focus()" label="Stručnost" ></v-select>
+                  <v-select id="ratingPoliteness" :items="ratings" item-text="text" v-model="registration.starsPoliteness" v-on:input="document.getElementById('ratingEthic').focus()" label="Ljubaznost" ></v-select>
+                  <v-select id="ratingEthic" :items="ratings" item-text="text" v-model="registration.starsEthic" v-on:input="document.getElementById('ratingStaff').focus()" label="Etičnost" ></v-select>
+                  <v-select id="ratingStaff" :items="ratings" item-text="text" v-model="registration.starsStaff" v-on:input="document.getElementById('submitBtn').focus()" label="Osoblje" ></v-select>
                   
                   <v-card-actions>
                     <v-spacer></v-spacer><v-btn id="submitBtn" flat color="primary" :disabled="!validComment" @click.prevent="submit">Spremi komentar</v-btn>
@@ -122,10 +125,9 @@
                         <h3 class="headline mb-0">Zahvaljujemo na Vašem unosu</h3>
                     </v-card-title>
                     <v-card-text>{{registration.clinic.clinicname}}, {{registration.clinic.address}},<br>
-                    {{registration.doctor.name}},<br>
-                    Vaš komentar: <span class="body-1" v-html="registration.comment"></span><br>
-                    Ocjena: <span v-for="n in registration.stars"> <v-icon small color="red">fa-tint</v-icon>
-                    </span>
+                    {{registration.doctor.name}},<br><br>
+                    <comment v-bind:cmnt="registration"></comment>
+                    
                    </v-card-text>
                   
                     <v-card-actions>

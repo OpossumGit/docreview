@@ -34,7 +34,8 @@
     "callbackPath": "/auth/google/callback",
     "successRedirect": "/",
     "scope": ["email", "profile"],
-    "failureFlash": true
+    "failureFlash": true,
+    "authOptions":{"prompt": "select_account"}
   },
   "twitter-login": {
     "provider": "twitter",

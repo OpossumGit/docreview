@@ -16,11 +16,11 @@ var app = new Vue({
       clinics:[],
       doctors: [],
       ratings: [{"text": "Bez ocjene", "value":0},
-      {"text": "nedovoljan (1)", "value":1},
-      {"text": "dovoljan (2)", "value":2},
-      {"text": "dobar (3)", "value":3},
-      {"text": "vrlo dobar (4)", "value":4},
-      {"text": "izvrstan (5)", "value":5}],
+      {"text": "★", "value":1},
+      {"text": "★★", "value":2},
+      {"text": "★★★", "value":3},
+      {"text": "★★★★", "value":4},
+      {"text": "★★★★★", "value":5}],
       validComment: false,
       requiredComment: [v =>!!v || 'Obavezan unos komentara'],
       errorMsg: null,
@@ -105,7 +105,7 @@ var app = new Vue({
 
       this.$http.get('api/ratings/'+this.registration.doctor.id+'/averagePerDoctor',{headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
 
-        console.log(response.body);
+        //console.log(response.body);
         this.averagePerDoctor=response.body.average;
         this.errorMsg=null;
 

@@ -99,21 +99,32 @@
                 	<v-subheader>{{registration.clinic.clinicname}}, {{registration.clinic.address}},</v-subheader>
                 	<v-subheader>{{registration.doctor.name}}</v-subheader>
 
+                  <averagedoctorrating v-bind:average="averagePerDoctor"></averagedoctorrating>
+
                   <v-form v-model="validComment">
                   <v-text-field id="comment" label="Komentar"
-                                v-model="registration.comment" multi-line auto-grow :rules="requiredComment" required></v-text-field>
+                                v-model="registration.comment" multi-line auto-grow :rules="requiredComment" required placeholder="Unesite Vaš komentar"></v-text-field>
                   </v-form>
-                  <v-select id="ratingExpertize" :items="ratings" item-text="text" v-model="registration.starsExpertize" v-on:input="document.getElementById('ratingPoliteness').focus()" label="Stručnost" ></v-select>
-                  <v-select id="ratingPoliteness" :items="ratings" item-text="text" v-model="registration.starsPoliteness" v-on:input="document.getElementById('ratingEthic').focus()" label="Ljubaznost" ></v-select>
-                  <v-select id="ratingEthic" :items="ratings" item-text="text" v-model="registration.starsEthic" v-on:input="document.getElementById('ratingStaff').focus()" label="Etičnost" ></v-select>
-                  <v-select id="ratingStaff" :items="ratings" item-text="text" v-model="registration.starsStaff" v-on:input="document.getElementById('submitBtn').focus()" label="Osoblje" ></v-select>
+                  <v-layout wrap justify-space-around>
+                    <v-flex xs6 md3 style="padding:2px">
+                      <v-select id="ratingExpertize" :items="ratings" item-text="text" v-model="registration.starsExpertize" label="Stručnost"></v-select>
+                    </v-flex>
+                    <v-flex xs6 md3 style="padding:2px">
+                      <v-select id="ratingPoliteness" :items="ratings" item-text="text" v-model="registration.starsPoliteness" label="Ljubaznost" ></v-select>
+                    </v-flex>
+                    <v-flex xs6 md3 style="padding:2px">
+                      <v-select id="ratingEthic" :items="ratings" item-text="text" v-model="registration.starsEthic" label="Etičnost" ></v-select>
+                    </v-flex>
+                    <v-flex xs6 md3 style="padding:2px">
+                      <v-select id="ratingStaff" :items="ratings" item-text="text" v-model="registration.starsStaff" label="Osoblje" ></v-select>
+                    </v-flex>
+                  </v-layout>
                   
                   <v-card-actions>
                     <v-spacer></v-spacer><v-btn id="submitBtn" flat color="primary" :disabled="!validComment" @click.prevent="submit">Spremi komentar</v-btn>
                   </v-card-actions>
 
-                  <averagedoctorrating v-bind:average="averagePerDoctor"></averagedoctorrating>
-
+                  <div v-if="comments.length>0">Komentari ({{comments.length}}):</div>
                   <comment v-for="comment in comments" v-bind:cmnt="comment"></comment>
 
 

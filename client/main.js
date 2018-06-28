@@ -26,7 +26,8 @@ var app = new Vue({
       errorMsg: null,
       unauthenticated: true,
       comments: {},
-      averagePerDoctor: {}
+      averagePerDoctor: {},
+      averagePerClinic: {}
   }),
   methods:{
     submit() {
@@ -78,6 +79,20 @@ var app = new Vue({
         if (response.status == 401) {this.logout();}
         else this.errorMsg=response.bodyText;
   	  });
+
+      this.$http.get('api/ratings/'+this.registration.clinic.id+'/averagePerClinic',{headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
+
+        //console.log(response.body);
+        this.averagePerClinic=response.body.average;
+        this.errorMsg=null;
+
+
+      }, response => {
+        // error callback
+        //console.log(response);
+        if (response.status == 401) {this.logout();}
+        else this.errorMsg=response.bodyText;
+      });
     },
     gotoComments() {
     	this.step = 3;

@@ -91,6 +91,9 @@
                 <v-stepper-content step="2">
                 	<v-subheader>{{registration.clinic.clinicname}}, {{registration.clinic.address}} </v-subheader>
                   <v-select id="doctor" :items="doctors" v-model="registration.doctor"  item-text="name" label="Doktor" v-on:input="gotoComments" autocomplete ></v-select>
+
+
+                  <averagedoctorrating v-bind:average="averagePerClinic"></averagedoctorrating>
                   
                 </v-stepper-content>
 

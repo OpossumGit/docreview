@@ -25,7 +25,8 @@ var app = new Vue({
       requiredComment: [v =>!!v || 'Obavezan unos komentara'],
       errorMsg: null,
       unauthenticated: true,
-      comments: {}
+      comments: {},
+      averagePerDoctor: {}
   }),
   methods:{
     submit() {
@@ -92,6 +93,20 @@ var app = new Vue({
         }
 
         this.comments=response.body;
+        this.errorMsg=null;
+
+
+      }, response => {
+        // error callback
+        //console.log(response);
+        if (response.status == 401) {this.logout();}
+        else this.errorMsg=response.bodyText;
+      });
+
+      this.$http.get('api/ratings/'+this.registration.doctor.id+'/averagePerDoctor',{headers : {'Authorization': this.getCookie("access_token")}}).then(response => {
+
+        console.log(response.body);
+        this.averagePerDoctor=response.body.average;
         this.errorMsg=null;
 
 
